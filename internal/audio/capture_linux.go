@@ -29,6 +29,14 @@ func NewCapture(cfg Config) (Capture, error) {
 }
 
 func findRecordCmd() (string, []string) {
+	if _, err := exec.LookPath("parec"); err == nil {
+		return "parec", []string{
+			"--format=s16le",
+			"--rate=16000",
+			"--channels=1",
+			"--raw",
+		}
+	}
 	if _, err := exec.LookPath("arecord"); err == nil {
 		return "arecord", []string{
 			"-f", "S16_LE",
@@ -39,21 +47,13 @@ func findRecordCmd() (string, []string) {
 			"-",
 		}
 	}
-	if _, err := exec.LookPath("parec"); err == nil {
-		return "parec", []string{
-			"--format=s16le",
-			"--rate=16000",
-			"--channels=1",
-			"--raw",
-		}
-	}
 	return "", nil
 }
 
 func init() {
 	checkFunc = func() DepInfo {
 		var info DepInfo
-		for _, exe := range []string{"arecord", "parec"} {
+		for _, exe := range []string{"parec", "arecord"} {
 			if _, err := exec.LookPath(exe); err == nil {
 				info.Found = append(info.Found, exe)
 			} else {
