@@ -223,13 +223,16 @@ func (m *Manager) showConfigInfo() {
 	fmt.Println()
 	fmt.Println("========== AirIn 配置 ==========")
 	fmt.Printf("  API Key: %s\n", maskKey(m.cfg.GetAPIKey()))
+	fmt.Printf("  Secret:  %s\n", maskKey(m.cfg.GetSecretKey()))
+	fmt.Printf("  AppID:   %s\n", m.cfg.GetAppID())
+	fmt.Printf("  Cluster: %s\n", m.cfg.GetCluster())
 	fmt.Printf("  快捷键:  %s\n", m.cfg.HotkeyString())
 	fmt.Printf("  状态:    %s\n", m.sm.Get().String())
 	fmt.Println()
 	fmt.Println("  配置文件: ~/.config/ime/config.json")
 	fmt.Println("  格式示例:")
 	fmt.Println(`  {
-    "api_key": "your-api-key-here",
+    "api_key": "your-token-here",
     "hotkey": {
       "modifiers": ["ctrl", "shift"],
       "key": "v"

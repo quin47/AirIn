@@ -14,9 +14,12 @@ type HotkeyConfig struct {
 }
 
 type Config struct {
-	APIKey  string       `json:"api_key"`
-	Hotkey  HotkeyConfig `json:"hotkey"`
-	mu      sync.RWMutex
+	APIKey    string       `json:"api_key"`
+	SecretKey string       `json:"secret_key,omitempty"`
+	AppID     string       `json:"app_id,omitempty"`
+	Cluster   string       `json:"cluster,omitempty"`
+	Hotkey    HotkeyConfig `json:"hotkey"`
+	mu        sync.RWMutex
 }
 
 func Default() *Config {
@@ -123,4 +126,25 @@ func (c *Config) HotkeyString() string {
 	}
 	s += hk.Key
 	return s
+}
+
+func (c *Config) GetSecretKey() string {
+	c.mu.RLock()
+	defer c.mu.RUnlock()
+	return c.SecretKey
+}
+
+func (c *Config) GetAppID() string {
+	c.mu.RLock()
+	defer c.mu.RUnlock()
+	return c.AppID
+}
+
+func (c *Config) GetCluster() string {
+	c.mu.RLock()
+	defer c.mu.RUnlock()
+	if c.Cluster == "" {
+		return "volcengine_input_edu"
+	}
+	return c.Cluster
 }

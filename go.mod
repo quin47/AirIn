@@ -4,6 +4,7 @@ go 1.26.5
 
 require (
 	github.com/godbus/dbus/v5 v5.2.2
+	github.com/gorilla/websocket v1.5.3
 	github.com/robotn/gohook v0.42.3
 )
 
